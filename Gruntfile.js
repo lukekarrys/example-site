@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jade');
 
@@ -10,23 +10,17 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    var defaultConfigPath = './_js/config/development.json';
-    var envConfigPath = './_js/config/' + process.env.NODE_ENV + '.json';
-    var configPath = grunt.file.exists(envConfigPath) ? envConfigPath : defaultConfigPath;
-
     grunt.initConfig({
-        //- compile main stylus file to output css file
-        stylus: {
-            compile: {
+        //- compile main less file to output css file
+        less: {
+            development: {
                 options: {
-                    use: [
-                        require('yeticss'),
-                        require('autoprefixer-stylus')
+                    plugins: [
+                        new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
                     ]
                 },
-
                 files: {
-                    'public/css/main.css': ['_styl/main.styl']
+                    'public/css/main.css': ['_less/main.less']
                 }
             }
         },
@@ -56,7 +50,7 @@ module.exports = function(grunt) {
               files: [{
                   expand: true,
                   cwd: '_jade',
-                  src: ['**/*.jade'],
+                  src: ['**/*.jade', '!**/_*.jade'],
                   dest: 'public',
                   ext: '.html',
               }]
@@ -67,12 +61,7 @@ module.exports = function(grunt) {
         browserify: {
             main: {
                 src: '_js/main.js',
-                dest: 'public/js/main.js',
-                options: {
-                  alias: {
-                    'config': configPath
-                  }
-                }
+                dest: 'public/js/main.js'
             }
         },
 
@@ -86,7 +75,7 @@ module.exports = function(grunt) {
                     dest: 'public/js',
                     ext: '.min.js'
                 }]
-          }
+            }
         },
 
         //- copy any files in assets to the same place in output dir
@@ -106,7 +95,7 @@ module.exports = function(grunt) {
 
         watch: {
             build: {
-                files: ['_styl/**', '_jade/**', '_js/**', 'assets/**'],
+                files: ['_less/**', '_jade/**', '_js/**', 'assets/**'],
                 tasks: ['build'],
                 options: {
                     livereload: true,
@@ -134,7 +123,7 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.registerTask('build', ['copy', 'stylus', 'cssmin', 'jade', 'browserify', 'uglify'])
+    grunt.registerTask('build', ['copy', 'less', 'cssmin', 'jade', 'browserify', 'uglify'])
     grunt.registerTask('serve', ['connect:server', 'watch'])
     grunt.registerTask('default', ['build'])
 };
