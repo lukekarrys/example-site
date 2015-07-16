@@ -16,7 +16,7 @@ module.exports = function(grunt) {
             development: {
                 options: {
                     plugins: [
-                        new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+                        new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]})
                     ]
                 },
                 files: {
@@ -82,20 +82,18 @@ module.exports = function(grunt) {
         //- beware of clobbering other generated files
         copy: {
             public: {
-                files: [
-                    {
-                        cwd: '_assets',
-                        expand: true,
-                        src: ['**'],
-                        dest: 'public/'
-                    },
-                ]
+                files: [{
+                    cwd: '_assets',
+                    expand: true,
+                    src: ['**'],
+                    dest: 'public/'
+                }]
             }
         },
 
         watch: {
             build: {
-                files: ['_less/**', '_jade/**', '_js/**', 'assets/**'],
+                files: ['_less/**', '_jade/**', '_js/**', '_assets/**'],
                 tasks: ['build'],
                 options: {
                     livereload: true,
@@ -119,11 +117,10 @@ module.exports = function(grunt) {
                     }
                 }
             }
-        },
-
+        }
     });
 
-    grunt.registerTask('build', ['copy', 'less', 'cssmin', 'jade', 'browserify', 'uglify'])
-    grunt.registerTask('serve', ['connect:server', 'watch'])
-    grunt.registerTask('default', ['build'])
+    grunt.registerTask('build', ['copy', 'less', 'cssmin', 'jade', 'browserify', 'uglify']);
+    grunt.registerTask('serve', ['connect:server', 'watch']);
+    grunt.registerTask('default', ['build']);
 };
