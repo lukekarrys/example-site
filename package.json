@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "connect-livereload": "^0.5.3",
+    "git-directory-deploy": "^1.1.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-cli": "^0.1.13",
@@ -19,7 +20,8 @@
   "main": "Gruntfile.js",
   "private": true,
   "scripts": {
-    "build": "grunt build",
-    "start": "grunt serve"
+    "build": "NODE_ENV=production grunt build",
+    "deploy": "git-directory-deploy --directory public",
+    "start": "NODE_ENV=development grunt serve"
   }
 }
