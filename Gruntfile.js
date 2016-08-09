@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+module.exports = (grunt) => {
   grunt.loadNpmTasks('grunt-contrib-less')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-jade')
@@ -9,8 +9,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-file-creator')
 
-  var env = process.env.NODE_ENV || 'development'
+  const env = process.env.NODE_ENV || 'development'
+  const pack = require('./package.json')
 
   grunt.initConfig({
     // - compile main less file to output css file
@@ -112,6 +114,15 @@ module.exports = function (grunt) {
       }
     },
 
+    'file-creator': {
+      CNAME: {
+        'public/CNAME' (fs, fd, done) {
+          fs.writeSync(fd, pack.homepage.split('://')[1] || pack.homepage)
+          done()
+        }
+      }
+    },
+
     connect: {
       server: {
         options: {
@@ -119,7 +130,7 @@ module.exports = function (grunt) {
           base: 'public',
           livereload: true,
           open: true,
-          middleware: function (connect, options) {
+          middleware (connect, options) {
             return [
               require('connect-livereload')(),
               require('serve-static')(options.base[0])
@@ -130,7 +141,7 @@ module.exports = function (grunt) {
     }
   })
 
-  grunt.registerTask('build', ['copy', 'less', 'cssmin', 'jade', 'browserify', 'uglify'])
+  grunt.registerTask('build', ['copy', 'file-creator:CNAME', 'less', 'cssmin', 'jade', 'browserify', 'uglify'])
   grunt.registerTask('serve', ['connect:server', 'watch'])
   grunt.registerTask('default', ['build'])
 }
