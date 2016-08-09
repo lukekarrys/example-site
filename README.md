@@ -1,5 +1,31 @@
-* `npm install; npm start` - will start a live reloading watching server
-* Output is all built to `public/`, perfect for surge or whatever
-* Package.json has build/start scripts that wrap grunt, to run grunt from the command line you'll need to `npm install -g grunt-cli`
-* Everything in `assets/` will be copied straight to `public/`, so images, etc can go in there.
-* `npm run deploy` to deploy to gh-pages
+# grunt-static-site
+
+[![Build Status](https://travis-ci.org/lukekarrys/grunt-static-site.png?branch=master)](https://travis-ci.org/lukekarrys/grunt-static-site)
+
+### First time
+
+```sh
+git clone git@github.com:lukekarrys/grunt-static-site.git
+mv grunt-static-site $PROJECT_NAME
+cd $PROJECT_NAME
+rm -rf .git/
+git init
+git commit -A -m "Initial commit"
+npm install
+# Update `homepage` and `repository` in `package.json`
+```
+
+### Dev
+
+```sh
+npm start
+```
+
+### Prod
+
+```sh
+npm run build
+npm run deploy:gh
+# or
+npm run deploy:surge
+```

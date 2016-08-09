@@ -1,5 +1,5 @@
 {
-  "name": "example-site",
+  "name": "grunt-static-site",
   "description": "Workflow for static sites with Grunt.",
   "version": "1.0.0",
   "author": "Luke Karrys <luke@lukekarrys.com>",
