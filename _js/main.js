@@ -1,1 +1,3 @@
-console.log('test2');
+const log = (...args) => console.log(...args)
+
+log(1, 2, 3)
