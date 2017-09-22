@@ -1,5 +1,7 @@
 # grunt-static-site
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/lukekarrys/grunt-static-site.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/lukekarrys/grunt-static-site.png?branch=master)](https://travis-ci.org/lukekarrys/grunt-static-site)
 
 ### First time
